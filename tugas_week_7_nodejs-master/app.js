@@ -44,7 +44,26 @@ app.makeFile = () => {
 }
 
 app.sorter = () => {
-    
+    const respon = fs.readdirSync("unorganize_folder");
+    respon.forEach(file => {
+        const ext = file.split('.').pop();
+        if(["jpg", "jpeg", "png"].includes(ext)){
+            fs.mkdir(__dirname + "/image", () => {
+                fs.renameSync(__dirname + `/unorganize_folder/${file}`, __dirname + `/image/${file}`);
+            });
+        } else if (["txt", "md"].includes(ext)){
+            fs.mkdir(__dirname + "/text", () => {
+                fs.renameSync(__dirname + `/unorganize_folder/${file}`, __dirname + `/text/${file}`);
+            });
+        } else {
+            fs.mkdir(__dirname + "/undefined_folder", () => {
+                fs.renameSync(__dirname + `/unorganize_folder/${file}`, __dirname + `/undefined_folder/${file}`);
+                console.log("Folder undefined created");
+            })
+        }
+    });
+    console.log("success sort");
+    rl.close();
 }
 
 app.readFolder = () => {
