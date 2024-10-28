@@ -111,13 +111,33 @@ app.readFolder = () => {
               jenis = "undefined";
             }
 
-            read.push({
+            // read.push({
+            //   nameFile: file.name,
+            //   extensi: ext,
+            //   jenisFile: jenis,
+            //   tanggalDibuat: fileData.birthtime.toISOString().split("T")[0],
+            //   ukuranFile: `${(fileData.size / 1024).toFixed(2)}kb`,
+            // });
+
+            const fileDetail = {
               nameFile: file.name,
               extensi: ext,
               jenisFile: jenis,
               tanggalDibuat: fileData.birthtime.toISOString().split("T")[0],
               ukuranFile: `${(fileData.size / 1024).toFixed(2)}kb`,
-            });
+            };
+  
+            let inserted = false;
+            for (let i = 0; i < read.length; i++) {
+              if (new Date(fileDetail.tanggalDibuat) < new Date(read[i].tanggalDibuat)) {
+                read.splice(i, 0, fileDetail);
+                inserted = true;
+                break;
+              }
+            }
+            if (!inserted) {
+              read.push(fileDetail);
+            }
           });
 
           console.log(read);
