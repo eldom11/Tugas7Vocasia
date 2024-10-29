@@ -1,4 +1,3 @@
-const { ifError } = require("node:assert");
 const fs = require("node:fs");
 const readline = require("node:readline");
 
